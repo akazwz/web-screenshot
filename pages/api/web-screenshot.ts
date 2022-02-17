@@ -24,7 +24,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     puppeteer.use(StealthPlugin())
     browser = await puppeteer.launch()
   }
-
   const page = await browser.newPage()
   await page.goto(url)
   const base64 = await page.screenshot({
