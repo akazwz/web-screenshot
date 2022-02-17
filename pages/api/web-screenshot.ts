@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
-import { addExtra, VanillaPuppeteer } from 'puppeteer-extra'
+import { addExtra } from 'puppeteer-extra'
 
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
@@ -16,7 +16,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   let puppeteer
   let browser
   if (process.env.NODE_ENV === 'production') {
-    puppeteer = addExtra(<VanillaPuppeteer><unknown>chromium.puppeteer)
+    puppeteer = addExtra(chromium.puppeteer)
     puppeteer.use(StealthPlugin())
     browser = await puppeteer.launch({ executablePath: await chromium.executablePath })
   } else {
