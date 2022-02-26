@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
 import { addExtra } from 'puppeteer-extra'
@@ -13,16 +12,21 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     return
   }
 
+  const defaultViewPort = { width: 1280, height: 800 }
+
   let puppeteer
   let browser
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'development') {
     puppeteer = addExtra(chromium.puppeteer)
     puppeteer.use(StealthPlugin())
-    browser = await puppeteer.launch({ executablePath: await chromium.executablePath })
+    browser = await puppeteer.launch({
+      executablePath: await chromium.executablePath,
+      defaultViewport: defaultViewPort,
+    })
   } else {
     puppeteer = require('puppeteer-extra')
     puppeteer.use(StealthPlugin())
-    browser = await puppeteer.launch()
+    browser = await puppeteer.launch({ defaultViewport: defaultViewPort })
   }
   const page = await browser.newPage()
   await page.goto(url)

@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import {
   Input,
   Image,
-  Center,
   Button,
   VStack,
   Heading,
