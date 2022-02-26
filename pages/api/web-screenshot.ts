@@ -2,9 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
 import { addExtra } from 'puppeteer-extra'
 
-// Add the Imports before StealthPlugin
-require('puppeteer-extra-plugin-stealth/evasions/chrome.app')
-
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
