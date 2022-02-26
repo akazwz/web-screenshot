@@ -26,5 +26,8 @@
     "eslint-config-next": "12.0.10",
     "puppeteer": "^13.3.2",
     "typescript": "4.5.5"
+  },
+  "pkg": {
+    "assets": "node_modules/puppeteer-extra-plugin-stealth/**/*.*"
   }
 }
