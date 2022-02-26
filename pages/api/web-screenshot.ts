@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
-import { addExtra } from 'puppeteer-extra'
-
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+import puppeteer from 'puppeteer-core'
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const { url } = req.query
@@ -14,19 +12,15 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   const defaultViewPort = { width: 1280, height: 800 }
 
-  let puppeteer
   let browser
-  if (process.env.NODE_ENV === 'development') {
-    /*puppeteer = addExtra(chromium.puppeteer)
-    puppeteer.use(StealthPlugin())
+  if (process.env.NODE_ENV === 'production') {
     browser = await puppeteer.launch({
       executablePath: await chromium.executablePath,
       defaultViewport: defaultViewPort,
-    })*/
+    })
   } else {
-    puppeteer = require('puppeteer-extra')
-    puppeteer.use(StealthPlugin())
-    browser = await puppeteer.launch({ defaultViewport: defaultViewPort })
+    const p = require('puppeteer')
+    browser = await p.launch({ defaultViewport: defaultViewPort })
   }
   const page = await browser.newPage()
   await page.goto(url)
