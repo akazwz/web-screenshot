@@ -16,13 +16,13 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   let puppeteer
   let browser
-  if (process.env.NODE_ENV === 'production') {
-    puppeteer = addExtra(chromium.puppeteer)
+  if (process.env.NODE_ENV === 'development') {
+    /*puppeteer = addExtra(chromium.puppeteer)
     puppeteer.use(StealthPlugin())
     browser = await puppeteer.launch({
       executablePath: await chromium.executablePath,
       defaultViewport: defaultViewPort,
-    })
+    })*/
   } else {
     puppeteer = require('puppeteer-extra')
     puppeteer.use(StealthPlugin())
