@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
-import puppeteer from 'puppeteer-core'
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const { url } = req.query
@@ -12,8 +11,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   const defaultViewPort = { width: 1280, height: 800 }
 
-  let browser
-  browser = await puppeteer.launch({
+  const browser = await chromium.puppeteer.launch({
     executablePath: await chromium.executablePath,
     defaultViewport: defaultViewPort,
   })
