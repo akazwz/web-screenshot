@@ -13,15 +13,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   const defaultViewPort = { width: 1280, height: 800 }
 
   let browser
-  if (process.env.NODE_ENV === 'production') {
-    browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath,
-      defaultViewport: defaultViewPort,
-    })
-  } else {
-    const p = require('puppeteer')
-    browser = await p.launch({ defaultViewport: defaultViewPort })
-  }
+  browser = await puppeteer.launch({
+    executablePath: await chromium.executablePath,
+    defaultViewport: defaultViewPort,
+  })
   const page = await browser.newPage()
   await page.goto(url)
   const base64 = await page.screenshot({
