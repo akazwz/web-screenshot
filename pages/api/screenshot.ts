@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
 import { Browser } from 'puppeteer'
 import type { Browser as BrowserCore } from 'puppeteer-core'
-import fs from 'fs/promises'
 import { runCors } from '../../src/middleware/cors'
 
 const getBrowserInstance = async () => {
@@ -17,9 +16,6 @@ const getBrowserInstance = async () => {
       ignoreHTTPSErrors: true,
     })
   }
-
-  await chromium.font('')
-  await chromium.font('')
 
   return chromium.puppeteer.launch({
     executablePath,
@@ -39,7 +35,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   let browser: Browser | BrowserCore | null = null
   const defaultViewport = { width: 1280, height: 800 }
   try {
-    await fs.copyFile('./fonts', '/tmp/aws/.fonts')
+    await chromium.font('../../fonts/NotoSansSc-Medium.otf')
     browser = await getBrowserInstance()
     const page = await browser.newPage()
     await page.setViewport(defaultViewport)
