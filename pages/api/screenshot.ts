@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
 import { Browser } from 'puppeteer'
 import type { Browser as BrowserCore } from 'puppeteer-core'
-import fs from 'fs'
+import fs from 'fs/promises'
 import { runCors } from '../../src/middleware/cors'
 
 const getBrowserInstance = async () => {
@@ -36,11 +36,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     res.status(400).json({ msg: 'params error' })
     return
   }
-
   let browser: Browser | BrowserCore | null = null
   const defaultViewport = { width: 1280, height: 800 }
-  await fs.copyFileSync('./fonts', '/tmp/aws/.fonts')
   try {
+    await fs.copyFile('./fonts', '/tmp/aws/.fonts')
     browser = await getBrowserInstance()
     const page = await browser.newPage()
     await page.setViewport(defaultViewport)
