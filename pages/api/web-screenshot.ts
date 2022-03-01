@@ -16,7 +16,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       args: ['--no-sandbox']
     })*/
     browser = await chromium.puppeteer.launch({
-      executablePath: await chromium.executablePath
+      executablePath: await chromium.executablePath,
+      defaultViewport,
+      args: ['--no-sandbox']
     })
   } else {
     const p = require('puppeteer')
