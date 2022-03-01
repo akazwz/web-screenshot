@@ -16,10 +16,12 @@ import { FormEvent, useState } from 'react'
 const Home: NextPage = () => {
   const [imgSrc, setImgSrc] = useState<string | null>(null)
   const [url, setUrl] = useState<string>('')
+  const [show, setShow] = useState<boolean>(false)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setImgSrc(null)
+    setShow(true)
     fetch(`/api/web-screenshot?url=${encodeURI(url)}`).then((res) => {
       if (res.status !== 200) {
         alert('error')
@@ -65,17 +67,21 @@ const Home: NextPage = () => {
             Submit
           </Button>
         </FormControl>
-        <AspectRatio w={{ base: 'sm', sm: 'md', md: 'xl', lg: '3xl', }} ratio={1280 / 800}>
-          <Skeleton
-            isLoaded={imgSrc !== null} w="100%" h="100%"
-            rounded="lg"
-          >
-            <Image
-              alt="website screenshot"
-              src={`data:image/gif;base64,${imgSrc}`}
-            />
-          </Skeleton>
-        </AspectRatio>
+        {
+          show
+            ? <AspectRatio w={{ base: 'sm', sm: 'md', md: 'xl', lg: '3xl', }} ratio={1280 / 800}>
+              <Skeleton
+                isLoaded={imgSrc !== null} w="100%" h="100%"
+                rounded="lg"
+              >
+                <Image
+                  alt="website screenshot"
+                  src={`data:image/gif;base64,${imgSrc}`}
+                />
+              </Skeleton>
+            </AspectRatio>
+            : null
+        }
       </VStack>
     </Container>
   )
