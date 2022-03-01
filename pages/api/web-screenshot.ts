@@ -4,18 +4,17 @@ import puppeteer from 'puppeteer-core'
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const { url } = req.query
-
   if (typeof url !== 'string') {
     res.status(400).json({ msg: 'params error' })
     return
   }
-
   let browser
+  const defaultViewport = { width: 1280, height: 800 }
   if (process.env.NODE_ENV === 'production') {
-    browser = await puppeteer.launch({ executablePath: await chromium.executablePath })
+    browser = await puppeteer.launch({ executablePath: await chromium.executablePath, defaultViewport })
   } else {
     const p = require('puppeteer')
-    browser = await p.launch()
+    browser = await p.launch({ defaultViewport })
   }
   const page = await browser.newPage()
   await page.goto(url)
