@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     e.preventDefault()
     setImgSrc(null)
     setShow(true)
-    fetch(`/api/web-screenshot?url=${encodeURI(url)}`).then((res) => {
+    fetch(`/api/screenshot?url=${encodeURI(url)}`).then((res) => {
       if (res.status !== 200) {
         alert('error')
         return

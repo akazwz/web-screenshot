@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
 import { Browser } from 'puppeteer'
 import type { Browser as BrowserCore } from 'puppeteer-core'
+import { runCors } from '../../src/middleware/cors'
 
 const getBrowserInstance = async () => {
   const executablePath = await chromium.executablePath
@@ -25,6 +26,7 @@ const getBrowserInstance = async () => {
 }
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
+  await runCors(req, res)
   const { url } = req.query
   if (typeof url !== 'string') {
     res.status(400).json({ msg: 'params error' })
