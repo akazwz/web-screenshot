@@ -11,7 +11,11 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   let browser
   const defaultViewport = { width: 1280, height: 800 }
   if (process.env.NODE_ENV === 'production') {
-    browser = await puppeteer.launch({ executablePath: await chromium.executablePath, defaultViewport })
+    browser = await puppeteer.launch({
+      executablePath: await chromium.executablePath,
+      defaultViewport,
+      args: ['--no-sandbox']
+    })
   } else {
     const p = require('puppeteer')
     browser = await p.launch({ defaultViewport })
