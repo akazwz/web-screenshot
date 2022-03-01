@@ -40,6 +40,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const page = await browser.newPage()
     await page.setViewport(defaultViewport)
     await page.goto(url)
+    await page.waitForNetworkIdle()
     const base64 = await page.screenshot({
       encoding: 'base64',
     })
