@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import chromium from 'chrome-aws-lambda'
-import puppeteer from 'puppeteer-core'
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const { url } = req.query
@@ -11,10 +10,13 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   let browser
   const defaultViewport = { width: 1280, height: 800 }
   if (process.env.NODE_ENV === 'production') {
-    browser = await puppeteer.launch({
+    /*browser = await puppeteer.launch({
       executablePath: await chromium.executablePath,
       defaultViewport,
       args: ['--no-sandbox']
+    })*/
+    browser = await chromium.puppeteer.launch({
+      executablePath: await chromium.executablePath
     })
   } else {
     const p = require('puppeteer')
