@@ -35,7 +35,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   let browser: Browser | BrowserCore | null = null
   const defaultViewport = { width: 1280, height: 800 }
   try {
-    await chromium.font('/NotoSansSc-Medium.otf')
+    await chromium.font('https://web-capture-zwz.vercel.app/NotoSansSC-Medium.otf')
     browser = await getBrowserInstance()
     const page = await browser.newPage()
     await page.setViewport(defaultViewport)
