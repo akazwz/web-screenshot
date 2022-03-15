@@ -25,7 +25,7 @@ import {
   NumberInputStepper,
   NumberDecrementStepper,
   NumberIncrementStepper,
-  useToast, useColorModeValue,
+  useToast, useColorModeValue, Spacer,
 } from '@chakra-ui/react'
 import isUrl from 'is-url'
 import { AutoHeightOne, AutoWidth, LinkOne } from '@icon-park/react'
@@ -110,13 +110,12 @@ const Home: NextPage = () => {
     <Container
       minH="100vh"
       minW="100vw"
-      p={7}
       bg={useColorModeValue('white', 'gray.900')}
     >
       <Heading textAlign="center" mb={5}>Website Capture</Heading>
       <Stack direction={'column'} alignItems="center" spacing={7}>
         <FormControl
-          w={{ base: 'sm', sm: 'md', md: 'xl', lg: '3xl', }}
+          w={{ base: 'sm', sm: 'md', md: 'xl', lg: '2xl', }}
           rounded="lg"
           borderStyle="dotted"
           borderWidth="3px"
@@ -184,7 +183,7 @@ const Home: NextPage = () => {
             </HStack>
           </Stack>
 
-          <Stack direction={{ base: 'column', md: 'row' }} spacing={3}>
+          <Stack direction={{ base: 'column', md: 'row' }} spacing={3} mb={3}>
             <HStack
               borderStyle="dashed"
               borderWidth="3px"
@@ -318,22 +317,37 @@ const Home: NextPage = () => {
               </Slider>
             </HStack>
           </Stack>
-          <Button
-            type="submit"
-            onClick={handleSubmit}
-            colorScheme="blue"
-            mt={3}
-            isDisabled={!isUrl(url)}
-          >
-            Submit
-          </Button>
+
+          <Stack direction={{ base: 'column', md: 'row' }}>
+            <HStack
+              borderStyle="dashed"
+              borderWidth="3px"
+              p={3}
+            >
+              <FormLabel htmlFor={'switch-full'} w="100%" mb={0}>
+                full?
+              </FormLabel>
+              <Switch id={'switch-full'} isChecked={isFull} onChange={() => setIsFull(!isFull)}/>
+            </HStack>
+
+            <Spacer/>
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              colorScheme="blue"
+              mt={3}
+              isDisabled={!isUrl(url)}
+            >
+              Submit
+            </Button>
+          </Stack>
         </FormControl>
       </Stack>
 
       <Stack alignItems="center" mt={3}>
         {
           show
-            ? <AspectRatio w={{ base: 'sm', sm: 'md', md: 'xl', lg: '3xl', }} ratio={1280 / 800}>
+            ? <AspectRatio w={{ base: 'sm', sm: 'md', md: 'xl', lg: '2xl', }} ratio={1280 / 800}>
               <Skeleton
                 isLoaded={imgSrc !== null} w="100%" h="100%"
                 rounded="lg"
