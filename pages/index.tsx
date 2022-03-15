@@ -74,7 +74,7 @@ const Home: NextPage = () => {
     validateParams()
     setImgSrc(null)
     setShow(true)
-    const input = `http://localhost:8000/screenshot?url=${encodeURI(url)}&width=${width}&height=${height}&full=${isFull}&quality=${quality}&timeout=${timeout}&sleep=${sleep}`
+    const input = `https://screenapi.hellozwz.com/screenshot?url=${encodeURI(url)}&width=${width}&height=${height}&full=${isFull}&quality=${quality}&timeout=${timeout}&sleep=${sleep}`
     fetch(input)
       .then((res) => {
         if (res.status !== 200) {
