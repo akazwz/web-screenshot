@@ -1,12 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import puppeteer, { Browser } from 'puppeteer'
+import puppeteer, { Browser } from 'puppeteer-core'
 import { runCors } from '../../src/middleware/cors'
 
 const getBrowserInstance = async () => {
-  return puppeteer.launch({
-    headless: true,
-    ignoreHTTPSErrors: true,
-  })
+  return puppeteer.connect({ browserWSEndpoint: 'ws://127.0.0.1:9222' })
 }
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
@@ -30,7 +27,6 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const base64 = await page.screenshot({
       encoding: 'base64',
     })
-    await browser.close()
     res.status(200).json({ base64: base64 })
     return
   } catch (e: unknown) {
