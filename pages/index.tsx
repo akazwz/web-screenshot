@@ -39,9 +39,11 @@ const Home: NextPage = () => {
   const [sleep, setSleep] = useState<number>(0)
   const [isFull, setIsFull] = useState<boolean>(false)
   const [show, setShow] = useState<boolean>(false)
-
   const [quality, setQuality] = useState(70)
   const [showTooltip, setShowTooltip] = useState(false)
+  const [isDark, setIsDark] = useState<boolean>(false)
+
+  const [isBtnLoading, setIsBtnLoading] = useState<boolean>(false)
 
   const toast = useToast()
 
@@ -71,12 +73,14 @@ const Home: NextPage = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    setIsBtnLoading(true)
     validateParams()
     setImgSrc(null)
     setShow(true)
-    const input = `https://screenapi.hellozwz.com/screenshot?url=${encodeURI(url)}&width=${width}&height=${height}&full=${isFull}&quality=${quality}&timeout=${timeout}&sleep=${sleep}`
+    const input = `https://screenapi.hellozwz.com/screenshot?url=${encodeURI(url)}&width=${width}&height=${height}&full=${isFull}&quality=${quality}&timeout=${timeout}&sleep=${sleep}&dark=${isDark}`
     fetch(input)
       .then((res) => {
+        setIsBtnLoading(false)
         if (res.status !== 200) {
           toast({
             title: '截屏失败',
@@ -101,6 +105,7 @@ const Home: NextPage = () => {
         })
       })
       .catch((e) => {
+        setIsBtnLoading(false)
         console.log(e)
         setShow(false)
       })
@@ -324,10 +329,10 @@ const Home: NextPage = () => {
               borderWidth="3px"
               p={3}
             >
-              <FormLabel htmlFor={'switch-full'} w="100%" mb={0}>
-                full?
+              <FormLabel htmlFor={'switch-dark'} w="100%" mb={0}>
+                dark?
               </FormLabel>
-              <Switch id={'switch-full'} isChecked={isFull} onChange={() => setIsFull(!isFull)}/>
+              <Switch id={'switch-dark'} isChecked={isDark} onChange={() => setIsDark(!isDark)}/>
             </HStack>
 
             <Spacer/>
@@ -337,6 +342,7 @@ const Home: NextPage = () => {
               colorScheme="blue"
               mt={3}
               isDisabled={!isUrl(url)}
+              isLoading={isBtnLoading}
             >
               Submit
             </Button>
